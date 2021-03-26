@@ -12,6 +12,8 @@ const body = document.querySelector(
     "p"
 );
 
+let num;
+
 btn.addEventListener("click", () => {
     load.style.visibility = "visible";
     load.classList.add("fade-in");
@@ -23,8 +25,13 @@ btn.addEventListener("click", () => {
     //     load.style.visibility =
     //         "hidden";
     // }, 1200);
+    // sleep(400).then(fetchIdea());
 
-    sleep(1000).then(() => {
+    setTimeout(() => {
+        fetchIdea();
+    }, 600);
+
+    sleep(1300).then(() => {
         load.classList.remove(
             "fade-in"
         );
@@ -48,17 +55,6 @@ btn.addEventListener("click", () => {
     //     .then((res) => {
     //         console.log(res);
     //     });
-    fetch("http://127.0.0.1:3000/api")
-        .then((res) => {
-            // console.log(JSON.parse(res));
-            return res.json();
-        })
-        .then((data) => {
-            console.log(data);
-        })
-        .catch((err) => {
-            console.error(err);
-        });
 });
 
 // function sleep(time) {
@@ -94,4 +90,45 @@ function sleep(ms) {
     return new Promise((resolve) =>
         setTimeout(resolve, ms)
     );
+}
+
+function random(arr) {
+    const data = arr;
+    const rand = Math.floor(
+        Math.random() * data.length
+    );
+
+    if (rand == num)
+        return random(data);
+    num = rand;
+    return rand;
+}
+
+function fetchIdea() {
+    fetch(
+        "https://powerful-basin-38985.herokuapp.com/api"
+    )
+        .then((res) => {
+            // console.log(JSON.parse(res));
+            return res.json();
+        })
+        .then((data) => {
+            const len = data.length;
+            // const rand = Math.floor(
+            //     Math.random() * len
+            // );
+            console.log(
+                data[random(data)]
+            );
+            const {
+                title,
+                description,
+            } = data[random(data)];
+
+            head.textContent = title;
+            body.textContent = description;
+        })
+        .catch((err) => {
+            console.error(err);
+        });
 }
