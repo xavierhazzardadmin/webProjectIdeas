@@ -1,4 +1,4 @@
-//DOM
+//DOM objects
 const btn = document.querySelector(
     "button"
 );
@@ -12,8 +12,17 @@ const body = document.querySelector(
     "p"
 );
 
+/** keeps track of the last random number
+ * ensures that the same number isn't picked twice
+ * so that it is truly a random idea
+ */
+
 let num;
 
+/**
+ * Animation logic, fades in and out
+ * Calls the blocking function for fetching from the API
+ */
 btn.addEventListener("click", () => {
     load.style.visibility = "visible";
     load.classList.add("fade-in");
@@ -44,6 +53,11 @@ function sleep(ms) {
     );
 }
 
+/**
+ * Random Number Generator
+ * Relative to the size of an array
+ *  @param {array} arr      array input for length;
+ */
 function random(arr) {
     const data = arr;
     const rand = Math.floor(
@@ -56,6 +70,14 @@ function random(arr) {
     return rand;
 }
 
+/**
+ * GET Request to express API
+ * Returns an array of objects
+ * each has their own title, and description properties
+ * in the function, the random function is used to select a random object
+ * This is then set as the values of the h1 and p elements,
+ * title and description respectively
+ */
 function fetchIdea() {
     fetch(
         "https://powerful-basin-38985.herokuapp.com/api"
